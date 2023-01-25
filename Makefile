@@ -15,7 +15,7 @@ libmindsp: $(obj)
 	ar -rcs $@.ar $^
 
 mindsptest: $(test_obj) libmindsp.ar
-	$(CC) -Wall -Wextra -o $@ $^ $(LDFLAGS)
+	$(CC) -Wall -Wextra -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 .PHONY: clean
 clean:
