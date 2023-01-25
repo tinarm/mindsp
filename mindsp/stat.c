@@ -5,6 +5,9 @@
 #include "mindsp.h"
 
 
+#define ARRAY_LEN(a) (sizeof(a) / sizeof((a)[0]))
+
+
 float mindsp_stat_get_mean(const float signal[], size_t len)
 {
     float mean = 0.0f;
@@ -25,7 +28,7 @@ float mindsp_stat_get_stddev(const float signal[], size_t len, float mean)
 {
     float variance = 0.0f;
 
-    if (!signal || len < 2U) {
+    if (!signal || len <= 1U) {
         return variance;
     }
 
@@ -80,20 +83,58 @@ void mindsp_stat_run_stats(mindsp_run_stats_data_t *run_data, const float signal
         run_data->samples_sum         += signal[i];
         run_data->samples_squared_sum += (signal[i] * signal[i]);
 
-        run_data->mean = run_data->samples_sum / run_data->samples_count;
+        run_data->stats.mean = run_data->samples_sum / run_data->samples_count;
 
         if (run_data->samples_count == 1U) {
-            run_data->stddev = 0.0f;
-        } else {
+            run_data->stats.stddev = 0.0f;
+        }
+        else {
             float squared_mean =
                 (run_data->samples_sum * run_data->samples_sum) /
                 run_data->samples_count;
 
-            run_data->stddev =
+            run_data->stats.stddev =
                 sqrtf(
                     (run_data->samples_squared_sum - squared_mean) /
                     (run_data->samples_count - 1U)
                 );
         }
     }
+}
+
+
+mindsp_basic_stats_t mindsp_stat_get_basic_stats(const uint8_t signal[], size_t len)
+{
+    size_t               histogram[UINT8_MAX + 1U] = {0};
+    mindsp_basic_stats_t stats                     = {0};
+
+    if (!signal || len <= 1U) {
+        return stats;
+    }
+
+    // Create the histogram for the signal
+    for (size_t i = 0U; i < len; i++) {
+        uint8_t bin = signal[i];
+        histogram[bin]++;
+    }
+
+    // Calculate mean
+    for (size_t i = 0U; i < ARRAY_LEN(histogram); i++) {
+        stats.mean += (i * histogram[i]);
+    }
+
+    stats.mean /= len;
+
+    // Calculate stddev
+    float variance = 0.0f;
+
+    for (size_t i = 0U; i < ARRAY_LEN(histogram); i++) {
+        float deviation = i - stats.mean;
+        variance += (histogram[i] * deviation * deviation);
+    }
+
+    variance    /= len - 1U;
+    stats.stddev = sqrtf(variance);
+
+    return stats;
 }

@@ -2,17 +2,23 @@
 #define MIN_DSP_HEADER_H
 
 #include <stddef.h>
+#include <stdint.h>
 
-typedef struct
-{
-	// Running state
-	size_t samples_count;
-	float  samples_sum;
-	float  samples_squared_sum;
 
-	// Mean and standard deviation calculated for each run
-	float mean;
-	float stddev;
+typedef struct {
+    float mean;
+    float stddev;
+} mindsp_basic_stats_t;
+
+
+typedef struct {
+    // Running state
+    size_t samples_count;
+    float  samples_sum;
+    float  samples_squared_sum;
+
+    // Basic statistics calculated for each run
+    mindsp_basic_stats_t stats;
 } mindsp_run_stats_data_t;
 
 
@@ -48,13 +54,26 @@ float mindsp_stat_get_snr(const float signal[], size_t len);
 
 
 /**
- * @brief Calculate mean and standard deviation using running statistics
+ * @brief Calculate basic stats using running statistics
  *
  * @param[in, out] run_data Running statistics data
  * @param[in] signal Signal array
  * @param[in] len Length of the array
  */
 void mindsp_stat_run_stats(mindsp_run_stats_data_t *run_data, const float signal[], size_t len);
+
+
+/**
+ * @brief Fast calculation of basic stats for an 8-bit dataset.
+ *
+ * This is suitable for large datasets since the algorithm uses a histogram
+ * internally to avoid a large number of multiplications.
+ *
+ * @param[in] signal Signal array
+ * @param[in] len Length of the array
+ * @return Basic statistics
+ */
+mindsp_basic_stats_t mindsp_stat_get_basic_stats(const uint8_t signal[], size_t len);
 
 
 #endif
