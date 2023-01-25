@@ -5,7 +5,8 @@ test_src = $(wildcard test/*.c)
 test_obj = $(test_src:.c=.o)
 
 CC = gcc
-CFLAGS = -I./mindsp
+
+CFLAGS = -std=c99 -I./mindsp
 LDFLAGS = -lm
 
 .PHONY: all
@@ -15,7 +16,7 @@ libmindsp: $(obj)
 	ar -rcs $@.ar $^
 
 mindsptest: $(test_obj) libmindsp.ar
-	$(CC) -Wall -Wextra -o $@ $^ $(CFLAGS) $(LDFLAGS)
+	$(CC) -Wall -Wextra -Wpedantic -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 .PHONY: clean
 clean:
