@@ -43,13 +43,6 @@ float mindsp_stat_get_stddev(const float signal[], size_t len, float mean)
 }
 
 
-/**
- * @brief Calculate the signal-to-noise ratio of the signal
- *
- * @param[in] signal Signal array
- * @param[in] len Length of the array
- * @return SNR of the signal
- */
 float mindsp_stat_get_snr(const float signal[], size_t len)
 {
     float snr = 0.0f;
@@ -65,13 +58,6 @@ float mindsp_stat_get_snr(const float signal[], size_t len)
 }
 
 
-/**
- * @brief Calculate mean and standard deviation using running statistics
- *
- * @param[in, out] run_data Running statistics data
- * @param[in] signal Signal array
- * @param[in] len Length of the array
- */
 void mindsp_stat_run_stats(mindsp_run_stats_data_t *run_data, const float signal[], size_t len)
 {
     if (!run_data || !signal) {
