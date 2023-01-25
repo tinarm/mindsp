@@ -2,12 +2,17 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "dsp.h"
+#include "mindsp.h"
 
 
-float dsp_stat_get_mean(const float signal[], size_t len)
+float mindsp_stat_get_mean(const float signal[], size_t len)
 {
     float mean = 0.0f;
+
+    if (len == 0U)
+    {
+        return mean;
+    }
 
     for (size_t i = 0; i < len; i++) {
         mean += signal[i];
@@ -17,7 +22,7 @@ float dsp_stat_get_mean(const float signal[], size_t len)
 }
 
 
-float dsp_stat_get_stddev(const float signal[], size_t len, float mean)
+float mindsp_stat_get_stddev(const float signal[], size_t len, float mean)
 {
     float variance = 0.0f;
 

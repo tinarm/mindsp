@@ -1,5 +1,5 @@
-#ifndef LIB_DSP_HEADER_H
-#define LIB_DSP_HEADER_H
+#ifndef MIN_DSP_HEADER_H
+#define MIN_DSP_HEADER_H
 
 #include <stddef.h>
 
@@ -10,7 +10,7 @@
  * @param len Length of the array
  * @return Mean value of the signal
  */
-float dsp_stat_get_mean(const float signal[], size_t len);
+float mindsp_stat_get_mean(const float signal[], size_t len);
 
 /**
  * @brief Calculate the standard deviation of a signal
@@ -20,7 +20,7 @@ float dsp_stat_get_mean(const float signal[], size_t len);
  * @param mean Mean value of the signal
  * @return Standard deviation of the signal
  */
-float dsp_stat_get_stddev(const float signal[], size_t len, float mean);
+float mindsp_stat_get_stddev(const float signal[], size_t len, float mean);
 
 
 #endif

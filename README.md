@@ -1,1 +1,3 @@
-# libdsp
+# mindsp
+
+Minimal DSP library.

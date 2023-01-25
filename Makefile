@@ -1,21 +1,21 @@
-src = $(wildcard dsp/*.c)
+src = $(wildcard mindsp/*.c)
 obj = $(src:.c=.o)
 
 test_src = $(wildcard test/*.c)
 test_obj = $(test_src:.c=.o)
 
-LDFLAGS = #-lz -lm
+LDFLAGS = -lm
 
 .PHONY: all
-all: clean libdsp libdsptest
+all: clean libmindsp mindsptest
 
-libdsp: $(obj)
-	$(CC) -Wall -Wextra -o $@ $^ $(LDFLAGS)
+libmindsp: $(obj)
+	ar -rcs $@.ar $^
 
-libdsptest: $(test_obj)
+mindsptest: $(test_obj)
 	$(CC) -Wall -Wextra -o $@ $^ $(LDFLAGS)
 
 .PHONY: clean
 clean:
-	rm -f $(obj) libdsp libdsptest
+	rm -f $(obj) $(test_obj) libmindsp.ar mindsptest
 
