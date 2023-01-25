@@ -76,7 +76,6 @@ void mindsp_stat_run_stats(mindsp_run_stats_data_t *run_data, const float signal
     }
 
     for (size_t i = 0U; i < len; i++) {
-        // Update running state.
         run_data->samples_count++;
         run_data->samples_sum         += signal[i];
         run_data->samples_squared_sum += (signal[i] * signal[i]);

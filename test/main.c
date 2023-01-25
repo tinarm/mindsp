@@ -11,7 +11,7 @@ void test_run_stats(const float signal_1[], size_t len)
 
     mindsp_stat_run_stats(&run_stats_data, signal_1, len);
 
-    printf("Running state: count=%zu, sum=%.2f, squared_sum=%.2f\n",
+    printf("\nRunning state: count=%zu, sum=%.2f, squared_sum=%.2f\n",
         run_stats_data.samples_count, run_stats_data.samples_sum, run_stats_data.samples_squared_sum);
     printf("\tmean: %.2f, stddev: %.2f\n", run_stats_data.mean, run_stats_data.stddev);
 
